@@ -1,52 +1,39 @@
-<!DOCTYPE html>
+<!doctype html>
+<!--喜欢的朋友可以加QQ群：获取新版导航喔  -->
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>网址大全</title>
-</head>
-<style>
-    img{
-        width: 20px;
-        height: 20px;
-    }
-</style>
-<body>
-<h1>网址大全</h1>
-<p><a href="/edit">添加</a> <a href="/classify">管理分类</a></p>
-    <table border="1">
-        <thead>
-            <tr>
-                <th>序号</th>
-                <th>图标</th>
-                <th>网站名称</th>
-                <th>简介</th>
-                <th>链接</th>
-                <th>图标链接</th>
-                <th>分类</th>
-                <th>权重</th>
-                <th>编辑</th>
-                <th>删除</th>
+  <meta charset="UTF-8">
+  <base target="_blank" />
+  <link rel="shortcut icon" href="static/images/favicon.ico"/>
+  <link rel="stylesheet" type="text/css" href="static/css/index.css">
+  <title>上网导航_首页</title>
+ </head>
+ <body>
+ <header>上网导航_首页
+  </header>
 
-            </tr>
-        </thead>
-        <tbody>
-        {% for website in websites %}
-            <tr>
+<!--Begin 搜索框 -->
+ <div class="search-form">
+<img class="baidu_img" src="static/images/baidu.png">
+<form method="get" action="http://www.baidu.com/s">
+    <input type="text" autocomplete="on" name="word" id="query" autofocus class="baidu"/>
+    <input type="submit" value="百度一下" class="search"/>
+</form>
+ </div>
+ <main>
+{% for classify in classifies %}
+    <div>
+        <li class="head head-{{ classify.id }}">▶{{ classify.name }}</li>
+            {% for website in classify.websites %}
+           <li><a href="{{ website.url }}" title="{{ website.description }}"><img src="{{ website.ico }}" >&nbsp;{{ website.title }}</a></li>
+            {% endfor %}
+    </div>
+{% endfor %}
+ </main>
 
-                <td>{{ loop.index }}</td>
-                <td><img src="{{ website.ico }}" alt=""></td>
-                <td><a href="{{ website.url }}">{{ website.title }}</a></td>
-                <td>{{ website.description }}</td>
-                <td>{{ website.url }}</td>
-                <td>{{ website.ico }}</td>
-                <td>{{ website.classify.name }}</td>
-                <td>{{ website.weight }}</td>
-                <td><a href="/edit?uid={{ website.id }}">编辑</a></td>
-                <td><a href="/delete?uid={{ website.id }}">删除</a></td>
-
-            </tr>
-         {% endfor %}
-        </tbody>
-    </table>
-</body>
+ <footer>
+ <p>&copy;2016年8月19日 Powered by Pengshiyu</p>
+ <p>加入QQ群：511956891 获取最新版本| <a href="/admin">后台管理</a> </p>
+ </footer>
+ </body>
 </html>

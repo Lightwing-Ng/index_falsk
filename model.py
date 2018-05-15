@@ -26,7 +26,7 @@ class WebsiteModel(BaseModel):
     description = CharField(default="")  # 网站描述
     url = CharField(null=True)  # 网站链接
     # 网站分类
-    classify = ForeignKeyField(model=ClassifyModel, backref="classifies",default=1)
+    classify = ForeignKeyField(model=ClassifyModel, backref="websites",default=1)
     # 网站权重，排列顺序
     weight = IntegerField(default=0)
 

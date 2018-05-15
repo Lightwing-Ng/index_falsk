@@ -1,0 +1,31 @@
+body{width:780px;margin:auto;padding:0;font-family:"微软雅黑";font-size:14px;background-color:#f6f6f6;}
+    header{line-height:35px;font-size:20px;padding:10px 0 0 10px;width:100%;color:#101010;}
+    iframe{background-color:#f6f6f6;}
+    .search-form{margin: auto; width:600px;}
+    form{margin:15px 0 0 0;float:left;}
+    .baidu{font-size:18px;font-family:"黑体"; width:300px;height:30px;display:inline-block;margin-right:5px;background-position:0 -96px;border:1px solid #b6b6b6;border-color:#7b7b7b #b6b6b6 #b6b6b6 #7b7b7b;vertical-align:top}
+    .baidu_img{width:85px; height:30px;margin:15px 5px 0 20px;float:left;}
+    .search{height:34px;width:90px;font-size:16px;font-family:"楷书" ;background-color:#04B5AF;border-radius:3px; box-shadow:0 1px 1px #ddd;border:0px;border-bottom-style:none;border-top-style:none;border-left-style:none;border-right-style:none;color:#ffffff;cursor:pointer;}/*绿色：#04B5AF；百度蓝色：#3385ff   border:1px solid #2d78f4;
+    .search:hover{background:#317ef3;border-bottom:1px solid #2868c8;box-shadow:1px 1px 1px #ccc}*/
+    iframe{float:right;margin-top:5px;}
+    left{padding:0;background-color:#f6f6f6;width:118px;height:435px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 10px 5px;float:left;}
+    right{padding:0;background-color:#f6f6f6;width:118px;height:435px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 10px 5px;float:right;}
+    .head{color:#fff;width:100%;font-size:16px;/*font-weight: bold;*/line-height:30px;margin-bottom:5px;}
+    .head-0{background-color:rgb(205,164,158);}
+    .head-1{background-color:rgb(130,57,53);}
+    .head-2{background-color:rgb(137,190,178);}
+    .head-3{background-color:rgb(201,186,131);}
+    .head-4{background-color:rgb(222,211,140);}
+    .head-5{background-color:rgb(222,156,83);}
+    .head-6{background-color:#ff9966;}
+    main div{padding:0;background-color:#f6f6f6;width:100%;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:10px 0 5px;float:left; }
+    ul{padding:0;background-color:#f6f6f6;width:118px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 0 5px;float:left;}
+    li{margin:0;list-style-type:none;float:left;line-height:30px;width:120px;}
+    img{width:15px;height:15px;}
+    
+    a{margin-left:10px;}
+    a:link{text-decoration: none; color:black; /* 指正常的未被访问过的链接*/}
+    a:visited{text-decoration:none;color:black;  /*指已经访问过的链接*/}
+    a:hover{ color:red;border-bottom:2px solid  /*指鼠标在链接*/}
+    a:active{text-decoration:none; /* 指正在点的链接*/ }
+    footer{width:100%;float:right;line-height:20px;text-align:center;font-size:12px;color:#888;background-color:#333333;margin:10px 0 15px 0;}

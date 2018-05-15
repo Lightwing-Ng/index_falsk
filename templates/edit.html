@@ -13,12 +13,20 @@
     <h1>网站信息编辑</h1>
     <form action="/edit" method="POST">
 
-        <div class="hide"><label for="web-id">网站ID：</label><input id="web-id" type="text" name="uid" value="{{ website.id }}"><br></div>
-        <label for="web-title">网站名称：</label><input id="web-title" type="text" name="title" value="{{ website.title }}"><br>
-        <label for="web-url">网站链接：</label><input id="web-url" type="text" name="url" value="{{ website.url }}"><br>
-        <label for="web-ico">网站图标：</label><input id="web-ico" type="text" name="ico" value="{{ website.ico }}"><br>
-        <label for="web-description">网站描述：</label><input id="web-description" type="text" name="description" value="{{ website.description }}"><br>
-        <label for="web-weight">网站权重：</label><input id="web-weight" type="text" name="weight" value="{{ website.weight }}"><br>
+        <div class="hide">
+            <label for="web-id">网站ID：</label>
+            <input id="web-id" type="text" name="uid" value="{{ website.id }}"><br>
+        </div>
+        <label for="web-title">网站名称：</label>
+        <input id="web-title" type="text" name="title" value="{{ website.title }}" placeholder="必填"><br>
+        <label for="web-url">网站链接：</label>
+        <input id="web-url" type="text" name="url" value="{{ website.url }}" placeholder="必填"><br>
+        <label for="web-ico">网站图标：</label>
+        <input id="web-ico" type="text" name="ico" value="{{ website.ico }}" placeholder="可不填写"><br>
+        <label for="web-description">网站描述：</label>
+        <input id="web-description" type="text" name="description" value="{{ website.description }}" placeholder="可不填写"><br>
+        <label for="web-weight">网站权重：</label>
+        <input id="web-weight" type="text" name="weight" value="{{ website.weight }}" placeholder="0"><br>
         <label for="web-classify">网站分类：</label>
         <select name="classify" id="web-classify">
             {% for classify in classifies %}

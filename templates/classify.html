@@ -18,7 +18,7 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ classify.name }}</td>
-            <td>{{ classify.classifies | length }}</td>
+            <td>{{ classify.websites | length }}</td>
             <td><a href="/delete-classify?uid={{ classify.id }}">删除</a></td>
         </tr>
         {% endfor %}
@@ -28,6 +28,6 @@
         <label for="classify-name">分类标签名：</label><input id="classify-name" type="text" name="name">
         <input type="submit">
     </form>
-    <p><a href="/">返回首页</a></p>
+    <p><a href="/admin">返回管理页面</a></p>
 </body>
 </html>
