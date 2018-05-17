@@ -24,8 +24,11 @@
 {% for classify in classifies %}
     <div>
         <li class="head head-{{ classify.id }}">▶{{ classify.name }}</li>
-            {% for website in classify.websites %}
+{#            通过权重进行排序#}
+            {% for website in classify.websites | sort(reverse=True, attribute='weight') %}
+                {% if website.weight != 0 %}
            <li><a href="{{ website.url }}" title="{{ website.description }}"><img src="{{ website.ico }}" >&nbsp;{{ website.title }}</a></li>
+                {% endif %}
             {% endfor %}
     </div>
 {% endfor %}

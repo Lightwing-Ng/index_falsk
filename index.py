@@ -10,14 +10,16 @@ from flask import Flask, render_template, request, url_for, redirect
 from model import ClassifyModel
 from model import WebsiteModel
 from spider import get_website_info
+from spider import download_icon
 
 app = Flask(__name__)
 
 # 首页
 @app.route("/")
 def index():
-    websites = WebsiteModel.select()
-    classifies = ClassifyModel.select()
+    websites = WebsiteModel.select().where(WebsiteModel.weight!=0)
+    classifies = ClassifyModel.select().where(ClassifyModel.weight!=0).order_by(-ClassifyModel.weight)
+    print(len(websites))
     dct = {
         "websites": websites,
         "classifies": classifies
@@ -27,7 +29,11 @@ def index():
 # 管理首页
 @app.route("/admin")
 def admin():
-    websites = WebsiteModel.select().order_by(-WebsiteModel.weight)
+    websites = (WebsiteModel.select()
+        .join(ClassifyModel)
+        .order_by(ClassifyModel.weight.desc(),
+                 WebsiteModel.weight.desc()))
+
     return render_template("admin.html", websites=websites)
 
 # 删除
@@ -50,32 +56,38 @@ def edit():
 
     elif request.method == "POST":
 
-        title = request.form.get("title")
+        title = request.form.get("title", "")
         if title == "": return "网站名称不能为空！"
 
-        url = request.form.get("url")
+        url = request.form.get("url", "")
         if url == "": return "网站链接不能为空！"
 
-        ico = request.form.get("ico")
+        ico = request.form.get("ico", "")
         print("ico", type(ico), ico)
 
         ret = None
+
         if ico == "":
             ret = get_website_info(url)
             ico = ret.get("icon")
-        description = request.form.get("description")
+        ico = download_icon(ico)
+
+        description = request.form.get("description", "")
         if description=="":
             if ret ==None:
                 ret = get_website_info(url)
-            description =ret.get("title")
+            description =ret.get("title", "")
 
-        classify_id = request.form.get("classify")
+        # 可能是 "" None
+        classify_id = request.form.get("classify", "")
+        classify_id = int(classify_id) if classify_id!="" else 0
+
         print(classify_id, type(classify_id))
-        classify_id = 0 if classify_id=="" else int(classify_id)
-        weight = request.form.get("weight")
-        weight = 0 if weight=="" else int(weight)
 
-        uid = request.form.get("uid")
+        weight = request.form.get("weight", "")
+        weight = int(weight) if weight != "" else 1
+
+        uid = request.form.get("uid", "")
         if uid !="":
             ret = WebsiteModel.select().where(WebsiteModel.id==uid).first()
         else:
@@ -95,15 +107,20 @@ def edit():
 
         # 不存在则添加数据
         else:
-            print("添加")
-            WebsiteModel.create(
-                title=title,
-                ico=ico,
-                description=description,
-                url=url,
-                classify_id=classify_id,
-                weight=weight
-            )
+            # 同名网站不添加
+            ret = WebsiteModel.select().where(WebsiteModel.title==title)
+            if len(ret)!=0:
+                print("网站名已存在", title)
+            else:
+                WebsiteModel.create(
+                    title=title,
+                    ico=ico,
+                    description=description,
+                    url=url,
+                    classify_id=classify_id,
+                    weight=weight
+                )
+                print("添加成功", title)
 
         return redirect(url_for("admin"))
 
@@ -112,12 +129,26 @@ def edit():
 @app.route("/classify", methods=["GET", "POST"])
 def classify():
     if request.method=="GET":
-        classifies = ClassifyModel.select()
+        classifies = ClassifyModel.select().order_by(ClassifyModel.weight.desc())
+
         return render_template("classify.html", classifies=classifies)
 
     elif request.method=="POST":
-        name = request.form.get("name")
-        ClassifyModel.create(name=name)
+
+        name = request.form.get("name", "")
+
+        if name=="": return "分类名不能为空"
+
+        weight = request.form.get("weight", "1")
+
+        ret = ClassifyModel.select().where(ClassifyModel.name==name)
+
+        if len(ret)==0:  # 不存在就添加了
+            ClassifyModel.create(name=name, weight=weight)
+
+        else:  # 存在就更新
+            ClassifyModel.update(weight=weight).where(ClassifyModel.name==name).execute()
+
         return redirect(url_for("classify"))
 
 # 删除标签分类

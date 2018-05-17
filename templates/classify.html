@@ -3,13 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <title>标签分类管理</title>
+    <link rel="shortcut icon" href="static/images/favicon.ico"/>
+    <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+<style>
+    body{
+        width:800px;
+        margin: 0 auto;
+    }
+    .table{
+        width: 800px;
+    }
+    th, td {
+        text-align: center;
+    }
+</style>
 </head>
 <body>
     <h1>标签分类管理</h1>
-    <table border="1">
+    <p><a href="/admin"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>返回管理页面</a></p><br>
+    <form action="/classify" method="POST" class="form-horizontal">
+        <div class="form-group">
+        <label for="classify-name" class="col-sm-2 control-label">分类标签名：</label>
+            <div class="col-sm-3">
+                <input id="classify-name" type="text" name="name" class="form-control">
+            </div>
+            <label for="classify-weight" class="col-sm-2 control-label">权重：</label>
+            <div class="col-sm-2">
+                <input id="classify-weight" type="text" name="weight" class="form-control" placeholder="默认1">
+            </div>
+            <div class="col-sm-3">
+                <input type="submit" class="btn btn-default">
+                </div>
+           </div>
+    </form>
+    <table class="table table-hover table-bordered">
         <thead><tr>
             <th>序号</th>
             <th>分类名称</th>
+            <th>权重</th>
             <th>数量</th>
             <th>删除</th>
         </tr></thead>
@@ -18,16 +49,13 @@
         <tr>
             <td>{{ loop.index }}</td>
             <td>{{ classify.name }}</td>
+            <td>{{ classify.weight }}</td>
             <td>{{ classify.websites | length }}</td>
-            <td><a href="/delete-classify?uid={{ classify.id }}">删除</a></td>
+            <td><a href="/delete-classify?uid={{ classify.id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span>删除</a></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
-    <form action="/classify" method="POST">
-        <label for="classify-name">分类标签名：</label><input id="classify-name" type="text" name="name">
-        <input type="submit">
-    </form>
-    <p><a href="/admin">返回管理页面</a></p>
+
 </body>
 </html>

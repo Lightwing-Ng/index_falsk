@@ -4,8 +4,12 @@
 # @Date    : 2018-05-15
 
 from peewee import *
+import os
 
-db = SqliteDatabase("webdata.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_name = "webdata.db"
+db_path = os.path.join(BASE_DIR, db_name)
+db = SqliteDatabase(db_path)
 
 class BaseModel(Model):
     class Meta:
@@ -14,6 +18,7 @@ class BaseModel(Model):
 # 分类表
 class ClassifyModel(BaseModel):
     name = CharField(null=True)  # 分类名称
+    weight = IntegerField(default=1)   # 权重 0 不显示
 
     # 备用字段
     flag = IntegerField(default=0)
@@ -21,14 +26,14 @@ class ClassifyModel(BaseModel):
 
 # 网站名称表
 class WebsiteModel(BaseModel):
-    title = CharField(null=True)  # 网站名称
+    title = CharField(null=False)  # 网站名称
     ico = CharField(null=False)  # 网站图标
     description = CharField(default="")  # 网站描述
     url = CharField(null=True)  # 网站链接
     # 网站分类
     classify = ForeignKeyField(model=ClassifyModel, backref="websites",default=1)
     # 网站权重，排列顺序
-    weight = IntegerField(default=0)
+    weight = IntegerField(default=1)  # 权重 0 不显示
 
     # 备用字段
     flag = IntegerField(default=0)
@@ -41,13 +46,15 @@ db.create_tables(tables, safe=True)
 db.close()
 
 if __name__ == "__main__":
-    ClassifyModel.create(name="未分类")
-    WebsiteModel.create(
-        title="百度",
-        ico="https://www.baidu.com/favicon.ico",
-        description="百度一下，你就知道",
-        url="https://www.baidu.com",
-        classify="1",
-        weight="0",
-    )
-    print("数据库初始化完成")
+    # ClassifyModel.create(name="未分类")
+    # WebsiteModel.create(
+    #     title="百度",
+    #     ico="https://www.baidu.com/favicon.ico",
+    #     description="百度一下，你就知道",
+    #     url="https://www.baidu.com",
+    #     classify="1",
+    #     weight="0",
+    # )
+    # print("数据库初始化完成")
+
+    print(db_path)

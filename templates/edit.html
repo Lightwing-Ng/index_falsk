@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>网站信息编辑</title>
+    <link rel="shortcut icon" href="static/images/favicon.ico"/>
+    <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
     <style>
+        body{
+        width:600px;
+        margin: 0 auto;
+        }
         .hide{
             display: none;
         }
@@ -11,24 +18,50 @@
 </head>
 <body>
     <h1>网站信息编辑</h1>
-    <form action="/edit" method="POST">
 
+    <p><a href="/admin"><span class="glyphicon glyphicon-th" aria-hidden="true"></span>返回管理页</a></p>
+
+    <form action="/edit" method="POST" class="form-horizontal">
+    <div class="form-group">
         <div class="hide">
-            <label for="web-id">网站ID：</label>
-            <input id="web-id" type="text" name="uid" value="{{ website.id }}"><br>
+            <label for="web-id" class="col-sm-2 control-label">网站ID：</label>
+            <input id="web-id" type="text" name="uid" value="{{ website.id }}" class="form-control">
         </div>
-        <label for="web-title">网站名称：</label>
-        <input id="web-title" type="text" name="title" value="{{ website.title }}" placeholder="必填"><br>
-        <label for="web-url">网站链接：</label>
-        <input id="web-url" type="text" name="url" value="{{ website.url }}" placeholder="必填"><br>
-        <label for="web-ico">网站图标：</label>
-        <input id="web-ico" type="text" name="ico" value="{{ website.ico }}" placeholder="可不填写"><br>
-        <label for="web-description">网站描述：</label>
-        <input id="web-description" type="text" name="description" value="{{ website.description }}" placeholder="可不填写"><br>
-        <label for="web-weight">网站权重：</label>
-        <input id="web-weight" type="text" name="weight" value="{{ website.weight }}" placeholder="0"><br>
-        <label for="web-classify">网站分类：</label>
-        <select name="classify" id="web-classify">
+    </div>
+     <div class="form-group">
+        <label for="web-title" class="col-sm-2 control-label">网站名称：</label>
+        <div class="col-sm-10">
+            <input id="web-title" type="text" name="title" value="{{ website.title }}" placeholder="必填" class="form-control">
+        </div>
+     </div>
+    <div class="form-group">
+            <label for="web-url" class="col-sm-2 control-label">网站链接：</label>
+        <div class="col-sm-10">
+            <input id="web-url" type="text" name="url" value="{{ website.url }}" placeholder="必填" class="form-control">
+        </div>
+    </div>
+        <div class="form-group">
+        <label for="web-ico" class="col-sm-2 control-label">网站图标：</label>
+        <div class="col-sm-10">
+            <input id="web-ico" type="text" name="ico" value="{{ website.ico }}" placeholder="可不填写" class="form-control">
+    </div>
+    </div>
+    <div class="form-group">
+        <label for="web-description" class="col-sm-2 control-label">网站描述：</label>
+        <div class="col-sm-10">
+            <input id="web-description" type="text" name="description" value="{{ website.description }}" placeholder="可不填写" class="form-control">
+        </div>
+    </div>
+        <div class="form-group">
+        <label for="web-weight" class="col-sm-2 control-label">网站权重：</label>
+        <div class="col-sm-3">
+            <input id="web-weight" type="text" name="weight" value="{{ website.weight }}" placeholder="默认1 不显示0" class="form-control">
+    </div>
+    </div>
+        <div class="form-group">
+        <label for="web-classify" class="col-sm-2 control-label">网站分类：</label>
+        <div class="col-sm-3">
+            <select name="classify" id="web-classify" class="form-control">
             {% for classify in classifies %}
                 {% if classify == website.classify %}
                     <option value="{{ classify.id }}" selected="selected">{{ classify.name }}</option>
@@ -36,11 +69,16 @@
                     <option value="{{ classify.id }}">{{ classify.name }}</option>
                 {% endif %}
             {% endfor %}
-        </select><br>
-        <input type="submit">
+        </select>
+        </div>
+    </div>
+            <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+        <input type="submit" class="btn btn-default">
+        </div></div>
     </form>
 
-   <p><a href="/">返回首页</a></p>
+
 
 </body>
 </html>

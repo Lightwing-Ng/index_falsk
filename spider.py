@@ -6,13 +6,13 @@
 # 通过爬虫自动获取网站信息
 
 import requests
-from requests.exceptions import Timeout
+from requests.exceptions import Timeout, MissingSchema
 from requests.exceptions import ConnectionError
 from urllib.parse import urljoin, urlparse
 from pyquery import PyQuery
 import os
 
-# BASE_DIR = path.basename(path.dirname(path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.139 Safari/537.36",
@@ -25,6 +25,11 @@ headers = {
 
 # 获取网站信息
 def get_website_info(url):
+    print("get_website_info-url:", url)
+    # 默认图标链接
+    result = urlparse(url)
+    domain = result.netloc
+    default_icon = urljoin(domain, "favicon.ico")
     title = ""
     icon = ""
 
@@ -39,53 +44,99 @@ def get_website_info(url):
         response.encoding = response.apparent_encoding
         doc = PyQuery(response.text)
         title = doc("title").text().strip()
-        icon = doc("link[rel='shortcut icon']").attr("href")
-        if icon == None:
-            icon = urljoin(url, "favicon.ico")
-        print("icon", icon)
+        icon = doc('link[rel="shortcut icon"]').attr("href")
+        if icon == None or icon=="":
+            icon = default_icon
+
         if icon.startswith("//"):
             icon = "http:"+ icon
         if not icon.startswith("http"):
             icon = urljoin(url, icon)
-        icon = download_icon(icon)
+
+        print("get_website_info-icon:", icon)
+        print("get_website_info-title:", title)
+
     return {"title": title, "icon": icon}
 
 # 下载图标
 def download_icon(url):
+    dirname = os.path.join("static", "ico")   #  保存文件夹
+    savedir = os.path.join(BASE_DIR, dirname)  # 保存绝对路径
+
+    # 测试路径
+    test_path = os.path.join(BASE_DIR, url)
+    print("test_path:", test_path)
+    # 已存在则不需要下载
+    if os.path.isfile(test_path) and os.path.exists(test_path):
+        return url
+
     print("url:", url)
     # 默认图标
     icon_path = "static/images/favicon.ico"
 
     # 解析出文件保存的文件路径
     result = urlparse(url)
+    print(result)
+    ext = os.path.splitext(result.path)[-1]
+    print(ext)
     domain = result.netloc.replace("www.", "")
-    dirname = "static\ico"  # 保存路径
-    file = domain + ".ico"  # 文件名
-    filename = os.path.join(dirname, file)  # 文件路径
+    file = domain + ext      # 文件名
+    filename= os.path.join(dirname, file)     # 返回的路径
+    fullname = os.path.join(savedir, file)    # 文件绝对路径
 
-    # 先判断是否存在,不存在则请求下载
-    if os.path.exists(filename):
-        icon_path = filename
-
+    # 下载图片
+    try:
+        response = requests.get(url, headers=headers, timeout=3)
+        print(response)
+    except Timeout as e:
+        print("下载超时：", url)
+    except ConnectionError as e:
+        print("链接错误：", url)
+    except MissingSchema:
+        print("模式错误：", url)
     else:
-        try:
-            response = requests.get(url, headers=headers, timeout=3)
-            print(response)
-        except Timeout as e:
-            pass
-        except ConnectionError as e:
-            pass
-        else:
-            if response.status_code == 200:
-                # 不存在则创建
-                if not os.path.isdir(dirname): os.makedirs(dirname)
+        if response.status_code == 200:
+            # 文件夹不存在则创建
+            if not os.path.isdir(savedir):
+                os.makedirs(savedir)
 
-                with open(filename, "wb") as f:
-                    f.write(response.content)
+            with open(fullname, "wb") as f:
+                f.write(response.content)
 
-                print(filename)
-                icon_path = filename
+            print(filename)
+            icon_path = filename
+
     return icon_path
+
+
+def move_tag():
+    # TODO：用于从原网站迁移数据
+    url = "https://www.pengshiyu.com/hao.html"
+    response = requests.get(url)
+    print(response)
+    doc=PyQuery(response.text)
+    a_all = doc("a")
+
+    count =0
+    for a in a_all.items():
+        title = a.text()
+        url = a.attr("href")
+        if url.startswith("#"):
+            continue
+        data = {
+            "title": title,
+            "url": url,
+            "classify": 1,
+            "uid":"",
+            "ico": "",
+            "description":"",
+            "weight":""
+        }
+        print(data)
+        count += 1
+        ret = requests.post("http://127.0.0.1:5000/edit", data=data)
+        print(ret)
+    print("count:", count)
 
 if __name__ == "__main__":
     # url = "https://music.163.com/"
@@ -93,5 +144,6 @@ if __name__ == "__main__":
     # ret = get_website_info(url)
     # print(ret["title"])
     # print(ret["icon"])
-    ret = download_icon("http://s1.music/stylefavicon.ico?v20180307")
-    print(ret)
+    # ret = download_icon("http://s1.music/stylefavicon.ico?v20180307")
+    # print(ret)
+    move_tag()

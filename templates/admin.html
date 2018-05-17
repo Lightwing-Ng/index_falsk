@@ -2,50 +2,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>网址大全</title>
+    <title>网址大全管理后台</title>
 </head>
+<link rel="shortcut icon" href="static/images/favicon.ico"/>
+<link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
 <style>
+    body{
+        width:1000px;
+        margin: 0 auto;
+    }
     img{
         width: 20px;
         height: 20px;
     }
+
 </style>
 <body>
 <h1>网址大全管理后台</h1>
-<p><a href="/">首页</a> <a href="/edit">添加</a> <a href="/classify">管理分类</a></p>
-    <table border="1">
+<p><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a>
+    <a href="/classify"><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>管理分类</a>
+    <a href="/edit"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>添加</a>
+</p>
+
+    <table class="table table-bordered table-hover">
         <thead>
             <tr>
                 <th>序号</th>
                 <th>图标</th>
                 <th>网站名称</th>
                 <th>简介</th>
-                <th>链接</th>
-                <th>图标链接</th>
+{#                <th>链接</th>#}
+{#                <th>图标链接</th>#}
                 <th>分类</th>
                 <th>权重</th>
                 <th>编辑</th>
                 <th>删除</th>
-
             </tr>
         </thead>
         <tbody>
+
         {% for website in websites %}
             <tr>
 
                 <td>{{ loop.index }}</td>
                 <td><img src="{{ website.ico }}" alt=""></td>
-                <td><a href="{{ website.url }}">{{ website.title }}</a></td>
+                <td><a href="{{ website.url }}" target="_blank">{{ website.title }}</a></td>
                 <td>{{ website.description }}</td>
-                <td>{{ website.url }}</td>
-                <td>{{ website.ico }}</td>
+{#                <td>{{ website.url }}</td>#}
+{#                <td>{{ website.ico }}</td>#}
                 <td>{{ website.classify.name }}</td>
                 <td>{{ website.weight }}</td>
-                <td><a href="/edit?uid={{ website.id }}">编辑</a></td>
-                <td><a href="/delete?uid={{ website.id }}">删除</a></td>
+                <td><a href="/edit?uid={{ website.id }}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                <td><a href="/delete?uid={{ website.id }}"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>
 
-            </tr>
-         {% endfor %}
+        </tr>
+        {% endfor %}
+
         </tbody>
     </table>
 </body>
