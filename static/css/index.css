@@ -11,16 +11,18 @@ body{width:780px;margin:auto;padding:0;font-family:"微软雅黑";font-size:14px
     iframe{float:right;margin-top:5px;}
     left{padding:0;background-color:#f6f6f6;width:118px;height:435px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 10px 5px;float:left;}
     right{padding:0;background-color:#f6f6f6;width:118px;height:435px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 10px 5px;float:right;}
-    .head{color:#fff;width:100%;font-size:16px;/*font-weight: bold;*/line-height:30px;margin-bottom:5px;}
-    .head-0{background-color:rgb(205,164,158);}
-    .head-1{background-color:rgb(130,57,53);}
-    .head-2{background-color:rgb(137,190,178);}
-    .head-3{background-color:rgb(201,186,131);}
-    .head-4{background-color:rgb(222,211,140);}
-    .head-5{background-color:rgb(222,156,83);}
-    .head-6{background-color:#ff9966;}
+    .head{color:#ffffff; background-color:#037b827a; width:100%;font-size:16px;/*font-weight: bold;*/line-height:30px;margin-bottom:5px;}
+    /* 一下这些颜色先不启用    */
+/*.head-0{background-color:rgb(205,164,158);}*/
+    /*.head-1{background-color:rgb(130,57,53);}*/
+    /*.head-2{background-color:rgb(137,190,178);}*/
+    /*.head-3{background-color:rgb(201,186,131);}*/
+    /*.head-4{background-color:rgb(222,211,140);}*/
+    /*.head-5{background-color:rgb(222,156,83);}*/
+    /*.head-6{background-color:#ff9966;}*/
     main div{padding:0;background-color:#f6f6f6;width:100%;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:10px 0 5px;float:left; }
     /*ul{padding:0;background-color:#f6f6f6;width:118px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 0 5px;float:left;}*/
+    li{list-style: none;}
     .web-li{margin:0;list-style-type:none;float:left;line-height:30px;width:120px;}
     img{width:15px;height:15px;}
     
