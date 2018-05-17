@@ -5,12 +5,14 @@
   <meta charset="UTF-8">
   <base target="_blank" />
   <link rel="shortcut icon" href="static/images/favicon.ico"/>
+    <link rel="stylesheet" href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+
   <link rel="stylesheet" type="text/css" href="static/css/index.css">
   <title>上网导航_首页</title>
+
  </head>
  <body>
- <header>上网导航_首页
-  </header>
+ <header>上网导航_首页</header>
 
 <!--Begin 搜索框 -->
  <div class="search-form">
@@ -20,14 +22,29 @@
     <input type="submit" value="百度一下" class="search"/>
 </form>
  </div>
+
+ <div class="clear"></div>
+
+ <!--导航条-->
+ <div class="">
+     <ul class="nav nav-tabs">
+  <li role="presentation" class="active"><a href="#" target="_self">Home</a></li>
+         {% for classify in classifies %}
+  <li role="presentation"><a href="#bar-{{ loop.index }}" target="_self">{{ classify.name }}</a></li>
+         {% endfor %}
+    </ul>
+ </div>
+
  <main>
 {% for classify in classifies %}
     <div>
-        <li class="head head-{{ classify.id }}">▶{{ classify.name }}</li>
+        <li class="head head-{{ loop.index }}" id="bar-{{ classify.id }}">▶{{ classify.name }}</li>
 {#            通过权重进行排序#}
             {% for website in classify.websites | sort(reverse=True, attribute='weight') %}
                 {% if website.weight != 0 %}
-           <li><a href="{{ website.url }}" title="{{ website.description }}"><img src="{{ website.ico }}" >&nbsp;{{ website.title }}</a></li>
+           <li class="web-li">
+               <a href="{{ website.url }}" title="{{ website.description }}">
+               <img src="{{ website.ico }}" class="">&nbsp;{{ website.title }}</a></li>
                 {% endif %}
             {% endfor %}
     </div>

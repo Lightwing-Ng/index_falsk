@@ -8,6 +8,7 @@
 import requests
 from requests.exceptions import Timeout, MissingSchema
 from requests.exceptions import ConnectionError
+from lxml.etree import ParserError
 from urllib.parse import urljoin, urlparse
 from pyquery import PyQuery
 import os
@@ -28,8 +29,9 @@ def get_website_info(url):
     print("get_website_info-url:", url)
     # 默认图标链接
     result = urlparse(url)
-    domain = result.netloc
-    default_icon = urljoin(domain, "favicon.ico")
+    default_icon = urljoin(result.scheme+"://"+result.netloc, "favicon.ico")
+    print("default-ico:", default_icon)
+    
     title = ""
     icon = ""
 
@@ -42,9 +44,17 @@ def get_website_info(url):
         pass
     else:
         response.encoding = response.apparent_encoding
-        doc = PyQuery(response.text)
-        title = doc("title").text().strip()
-        icon = doc('link[rel="shortcut icon"]').attr("href")
+        try:
+            doc = PyQuery(response.text)
+            title = doc("title").text().strip()
+            icon = doc('link[rel="shortcut icon"]').attr("href")
+            if icon==None:
+                icon = doc('link[rel="SHORTCUT ICON"]').attr("href")
+            print("parse-ico:", icon)
+        except ParserError:
+            print("Document is empty")
+            pass
+
         if icon == None or icon=="":
             icon = default_icon
 
@@ -56,7 +66,10 @@ def get_website_info(url):
         print("get_website_info-icon:", icon)
         print("get_website_info-title:", title)
 
-    return {"title": title, "icon": icon}
+    dct = {"title": title, "icon": icon}
+    print(dct)
+
+    return dct
 
 # 下载图标
 def download_icon(url):
@@ -66,6 +79,7 @@ def download_icon(url):
     # 测试路径
     test_path = os.path.join(BASE_DIR, url)
     print("test_path:", test_path)
+
     # 已存在则不需要下载
     if os.path.isfile(test_path) and os.path.exists(test_path):
         return url

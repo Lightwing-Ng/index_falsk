@@ -1,7 +1,8 @@
 body{width:780px;margin:auto;padding:0;font-family:"微软雅黑";font-size:14px;background-color:#f6f6f6;}
     header{line-height:35px;font-size:20px;padding:10px 0 0 10px;width:100%;color:#101010;}
     iframe{background-color:#f6f6f6;}
-    .search-form{margin: auto; width:600px;}
+    .search-form{margin: auto; width:100%;}
+    .clear{clear:both;}   /*清除浮动*/
     form{margin:15px 0 0 0;float:left;}
     .baidu{font-size:18px;font-family:"黑体"; width:300px;height:30px;display:inline-block;margin-right:5px;background-position:0 -96px;border:1px solid #b6b6b6;border-color:#7b7b7b #b6b6b6 #b6b6b6 #7b7b7b;vertical-align:top}
     .baidu_img{width:85px; height:30px;margin:15px 5px 0 20px;float:left;}
@@ -19,8 +20,8 @@ body{width:780px;margin:auto;padding:0;font-family:"微软雅黑";font-size:14px
     .head-5{background-color:rgb(222,156,83);}
     .head-6{background-color:#ff9966;}
     main div{padding:0;background-color:#f6f6f6;width:100%;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:10px 0 5px;float:left; }
-    ul{padding:0;background-color:#f6f6f6;width:118px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 0 5px;float:left;}
-    li{margin:0;list-style-type:none;float:left;line-height:30px;width:120px;}
+    /*ul{padding:0;background-color:#f6f6f6;width:118px;border-style:solid; border-width:1px; border-color:#c0c0c0;margin:15px 5px 0 5px;float:left;}*/
+    .web-li{margin:0;list-style-type:none;float:left;line-height:30px;width:120px;}
     img{width:15px;height:15px;}
     
     a{margin-left:10px;}
